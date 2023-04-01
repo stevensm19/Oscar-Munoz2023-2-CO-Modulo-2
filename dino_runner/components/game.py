@@ -31,7 +31,8 @@ class Game:
                 self.playing = False
 
     def update(self):
-        pass
+        user_input = pygame.key.get_pressed()
+        self.player.update(user_input)
 
     def draw(self):
         self.clock.tick(FPS)
@@ -40,7 +41,7 @@ class Game:
         self.player.draw(self.screen)
         pygame.display.update()
         pygame.display.flip()
-        self.draw()
+        # self.draw() Revisar porque generaba error al codigo
 
     def draw_background(self):
         image_width = BG.get_width()
