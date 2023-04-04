@@ -14,7 +14,7 @@ class Dinosour(Sprite):
         self.dino_run = True
         self.step_index = 0
         self.dino_jump = False
-        self.dino_ducking = False
+        self.dino_ducking = False ##Atributo
         self.jump_speed = self.JUMP_SPEED
 
     def update(self,user_input):
@@ -25,25 +25,19 @@ class Dinosour(Sprite):
         elif self.dino_ducking:
             self.ducking()   
 
-        if user_input[pygame.K_UP] and not self.dino_jump: #Comando para saltar
+        if user_input[pygame.K_UP] and not self.dino_jump and not self.dino_ducking: #Comando para saltar
             self.dino_jump = True
             self.dino_run = False
-            self.dino_ducking = False
             
         elif not self.dino_jump:
             self.dino_jump = False
             self.dino_run = True 
-            self.dino_ducking = True
+            self.dino_ducking = False
 
         if user_input[pygame.K_DOWN] and not self.dino_jump: #Comando para agacharse
            self.dino_ducking = True 
            self.dino_run = False
            self.dino_jump = False    
-
-        elif not self.ducking:
-            self.dino_jump = True
-            self.dino_run = True 
-            self.dino_ducking = False   
 
 
         if self.step_index > 10:
