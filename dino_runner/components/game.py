@@ -1,5 +1,6 @@
 import pygame
-from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS
+import random
+from dino_runner.utils.constants import BG, ICON, SCREEN_HEIGHT, SCREEN_WIDTH, TITLE, FPS, CLOUD
 from dino_runner.components.dinosaur import Dinosour
 from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 
@@ -13,10 +14,11 @@ class Game:
         self.clock = pygame.time.Clock()
         self.playing = False
         self.game_speed = 20
+        self.points = 0
         self.x_pos_bg = 0
         self.y_pos_bg = 380
-        self.x_pos_ct = 1100
-        self.y_pos_ct = 325
+        self.x_pos_cloud = SCREEN_WIDTH #nube
+        self.y_pos_cloud = random.randint(50,150) #nube
         self.player = Dinosour()
         self.obstacle_manager = ObstacleManager()
 
@@ -26,7 +28,7 @@ class Game:
         while self.playing:
             self.events()
             self.update() 
-            self.draw()   
+            self.levels() 
         pygame.quit() 
    
     def events(self):
@@ -40,10 +42,11 @@ class Game:
         self.obstacle_manager.update(self)
         
 
-    def draw(self):
+    def draw(self,level):
         self.clock.tick(FPS)
-        self.screen.fill((255,255,255))
+        self.screen.fill((level))
         self.draw_background()
+        self.draw_cloud()
         self.player.draw(self.screen)
         self.obstacle_manager.draw(self.screen)
         pygame.display.update()
@@ -59,5 +62,22 @@ class Game:
             self.screen.blit(BG, (image_width + self.x_pos_bg, self.y_pos_bg))
             self.x_pos_bg = 0
         self.x_pos_bg -= self.game_speed 
+
+    def draw_cloud(self): #nube
+        image_width = CLOUD.get_width()
+        self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud))
         
-     
+        if self.x_pos_cloud <= -image_width:
+            self.screen.blit(CLOUD, (image_width + self.x_pos_cloud, self.y_pos_cloud))
+            self.x_pos_cloud = SCREEN_WIDTH + random.randint(0,20)
+        self.x_pos_cloud -= self.game_speed     
+
+    def levels(self):
+        if self.points < 50:
+            level = (255,255,255)
+            self.draw(level)
+            self.points += 0.1
+        else:
+            level = (0,0,0)    
+            self.draw(level)
+

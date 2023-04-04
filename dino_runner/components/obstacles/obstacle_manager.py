@@ -1,17 +1,26 @@
 import pygame
-from dino_runner.components.obstacles.cactus import Cactus
+import random
+from dino_runner.components.obstacles.small_cactus import smallCactus
+from dino_runner.components.obstacles.large_cactus import largeCactus
+from dino_runner.components.obstacles.bird import bird
+
 from dino_runner.utils.constants import SMALL_CACTUS
 from dino_runner.utils.constants import LARGE_CACTUS
+from dino_runner.utils.constants import BIRD
 
 
 class ObstacleManager:
     def __init__(self):
-        self.obstacles = [] #bird, small, large
-    
+        self.obstacles = [] #bird o small o large
+
     def update (self,game):
         if len(self.obstacles) == 0:
-            small_cactus = Cactus(SMALL_CACTUS)
-            self.obstacles.append(small_cactus)
+            if random.randint(0, 2) == 0:
+                self.obstacles.append(smallCactus(SMALL_CACTUS))
+            elif random.randint(0, 2) == 1:
+                self.obstacles.append(largeCactus(LARGE_CACTUS))    
+            elif random.randint(0, 2) == 2:
+                self.obstacles.append(bird(BIRD))        
         
         for obstacle in self.obstacles:
             obstacle.update(game.game_speed,self.obstacles)
@@ -23,3 +32,7 @@ class ObstacleManager:
         
         for obstacle in self.obstacles:
             obstacle.draw(screen)
+    
+    def fly (self): #Metodo para agacharse
+        self.image = BIRD[0] if self.step_index < 5 else BIRD[1]
+        self.step_index += 1
