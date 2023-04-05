@@ -4,13 +4,13 @@ from dino_runner.components.obstacles.obstacle import Obstacle
 from dino_runner.utils.constants import SCREEN_WIDTH
 from dino_runner.utils.constants import BIRD
 
-class bird(Obstacle):
-    def __init__ (self,image):
-        self.image = image
+class Bird(Obstacle): 
+    BIRD_HEIGHTS = [260,220,170]
+
+    def __init__ (self):
         self.type = 0
-        super().__init__(self.image,self.type)
-        self.rect.x = SCREEN_WIDTH
-        self.rect.y = random.randint(200,300)
+        super().__init__(BIRD,self.type)
+        self.rect.y = self.BIRD_HEIGHTS[random.randint(0, 2)]
         self.fly_index = 0
 
     def draw(self, screen):
