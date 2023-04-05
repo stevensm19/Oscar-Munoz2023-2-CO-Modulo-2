@@ -1,5 +1,6 @@
 import pygame
 from dino_runner.utils.constants import FONT_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT
+from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
 
 class Menu:
     half_screen_width = SCREEN_WIDTH // 2
@@ -10,11 +11,12 @@ class Menu:
         self.font = pygame.font.Font(FONT_STYLE, 30)
         self.text = self.font.render(message, True, (0, 0, 0))
         self.text_rect = self.text.get_rect()
-        self.text_rect.center = (self.half_screen_width,self.half_screen_height)
+        self.text_rect.center = (
+            self.half_screen_width, self.half_screen_height)
 
-    def update (self,game):
+    def update(self, game):
         self.handle_events_on_menu(game)
-        pygame.display.update()
+        pygame.display.update()  # .blit
 
     def draw(self, screen):
         screen.blit(self.text, self.text_rect)
@@ -33,4 +35,5 @@ class Menu:
     def update_message(self, message):
         self.text = self.font.render(message, True, (0, 0, 0))
         self.text_rect = self.text.get_rect()
-        self.text_rect.center = (self.half_screen_width, self.half_screen_height)
+        self.text_rect.center = (
+            self.half_screen_width, self.half_screen_height)

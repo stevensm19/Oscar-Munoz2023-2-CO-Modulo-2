@@ -1,11 +1,10 @@
 import pygame
 import random
+from dino_runner.components.dinosaur import Dinosour
 from dino_runner.components.obstacles.cactus import Cactus
 from dino_runner.components.obstacles.bird import Bird
 
-from dino_runner.utils.constants import SMALL_CACTUS
-from dino_runner.utils.constants import LARGE_CACTUS
-from dino_runner.utils.constants import BIRD
+from dino_runner.utils.constants import SMALL_CACTUS, LARGE_CACTUS, BIRD
 
 
 class ObstacleManager:
@@ -22,6 +21,7 @@ class ObstacleManager:
             obstacle.update(game.game_speed,self.obstacles)
             if game.player.dino_rect.colliderect(obstacle.rect):
                 game.playing = False
+                game.death_count += 1
                 break
 
     def draw (self,screen):
