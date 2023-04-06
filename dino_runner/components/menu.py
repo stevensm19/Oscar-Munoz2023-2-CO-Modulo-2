@@ -1,24 +1,24 @@
 import pygame
-from dino_runner.utils.constants import FONT_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT
-from dino_runner.components.obstacles.obstacle_manager import ObstacleManager
+from dino_runner.utils.constants import FONT_STYLE, SCREEN_WIDTH, SCREEN_HEIGHT, DEAD
+
 
 class Menu:
     half_screen_width = SCREEN_WIDTH // 2
     half_screen_height = SCREEN_HEIGHT // 2
 
-    def __init__(self, screen, message):
+    def __init__(self, screen):
         screen.fill((255, 255, 255))
         self.font = pygame.font.Font(FONT_STYLE, 30)
-        self.text = self.font.render(message, True, (0, 0, 0))
-        self.text_rect = self.text.get_rect()
-        self.text_rect.center = (
-            self.half_screen_width, self.half_screen_height)
 
     def update(self, game):
         self.handle_events_on_menu(game)
-        pygame.display.update()  # .blit
+        pygame.display.update()
 
-    def draw(self, screen):
+    def draw(self, screen, message, colores, x=half_screen_width, y=half_screen_height):
+
+        self.text = self.font.render(message, True, colores)
+        self.text_rect = self.text.get_rect()
+        self.text_rect.center = (x, y)
         screen.blit(self.text, self.text_rect)
 
     def reset_screen_color(self, screen):
@@ -31,9 +31,3 @@ class Menu:
                 game.playing = False
             elif event.type == pygame.KEYDOWN:
                 game.run()
-
-    def update_message(self, message):
-        self.text = self.font.render(message, True, (0, 0, 0))
-        self.text_rect = self.text.get_rect()
-        self.text_rect.center = (
-            self.half_screen_width, self.half_screen_height)
